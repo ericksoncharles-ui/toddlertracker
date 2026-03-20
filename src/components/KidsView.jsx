@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import '../styles/KidsView.css'
 
 function KidsView({ child, onBedtime, onWakeup }) {
-  const [mode, setMode] = useState('day') // 'day', 'bedtime', 'sleeping', 'waking'
+  const [mode, setMode] = useState('day')
   const [showCelebration, setShowCelebration] = useState(false)
   const [celebrationText, setCelebrationText] = useState('')
   const [stars, setStars] = useState(0)
@@ -16,139 +16,135 @@ function KidsView({ child, onBedtime, onWakeup }) {
     }
   }, [])
 
+  const triggerCelebration = (text) => {
+    setCelebrationText(text)
+    setShowCelebration(true)
+    setTimeout(() => setShowCelebration(false), 2500)
+  }
+
   const handleBedtimeClick = () => {
     setMode('sleeping')
-    setCelebrationText(`Time for sleep, ${child}! 🌙`)
-    setShowCelebration(true)
+    triggerCelebration(`Ready for sleep, ${child}!`)
     onBedtime()
-
-    setTimeout(() => {
-      setShowCelebration(false)
-    }, 3000)
   }
 
   const handleWakeupClick = () => {
     setMode('day')
-    setCelebrationText(`Good morning, ${child}! ☀️`)
-    setShowCelebration(true)
     setStars(stars + 1)
+    triggerCelebration(`Great morning, ${child}!`)
     onWakeup()
-
-    setTimeout(() => {
-      setShowCelebration(false)
-    }, 3000)
   }
 
   const addStar = () => {
     setStars(stars + 1)
-    setCelebrationText('⭐ Great job! ⭐')
-    setShowCelebration(true)
-    setTimeout(() => setShowCelebration(false), 2000)
+    triggerCelebration('Awesome job!')
   }
 
   return (
     <div className="kids-view">
       {showCelebration && (
-        <div className="celebration-overlay">
-          <div className="celebration-content">
+        <div className="celebration-modal">
+          <div className="celebration-inner">
             <div className="celebration-text">{celebrationText}</div>
-            <div className="confetti">
-              {[...Array(20)].map((_, i) => (
-                <div key={i} className="confetti-piece" style={{
-                  left: `${Math.random() * 100}%`,
-                  delay: `${Math.random() * 0.5}s`
-                }} />
-              ))}
-            </div>
+            {[...Array(30)].map((_, i) => (
+              <div key={i} className="confetti-item" style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 0.3}s`,
+                animationDuration: `${2 + Math.random()}s`
+              }} />
+            ))}
           </div>
         </div>
       )}
 
       <div className={`kids-container mode-${mode}`}>
         {mode === 'day' && (
-          <div className="day-mode">
-            <div className="mascot sun">☀️</div>
-            <h1 className="mode-title">Good Morning, {child}!</h1>
-            <p className="mode-subtitle">Ready to play and have fun!</p>
+          <div className="mode-content day-content">
+            <div className="mode-header">
+              <div className="mode-icon">🌞</div>
+              <h1>Good Morning!</h1>
+              <p>Ready to play, {child}?</p>
+            </div>
 
-            <button
-              className="big-button bedtime-button"
-              onClick={handleBedtimeClick}
-            >
-              <span className="button-emoji">🌙</span>
-              <span className="button-text">Ready for Bed!</span>
-            </button>
+            <div className="action-button primary-action" onClick={handleBedtimeClick}>
+              <div className="action-icon">🌙</div>
+              <div className="action-label">Ready for Bed</div>
+            </div>
           </div>
         )}
 
         {mode === 'bedtime' && (
-          <div className="bedtime-mode">
-            <div className="mascot moon">🌙</div>
-            <h1 className="mode-title">Bedtime, {child}!</h1>
-            <p className="mode-subtitle">It's time to rest and dream!</p>
+          <div className="mode-content bedtime-content">
+            <div className="mode-header">
+              <div className="mode-icon">🌙</div>
+              <h1>Bedtime!</h1>
+              <p>Time to get ready for sleep</p>
+            </div>
 
             <div className="bedtime-checklist">
               <div className="checklist-item">
-                <span className="emoji">🚿</span>
+                <div className="item-icon">🚿</div>
                 <span>Bath time</span>
               </div>
               <div className="checklist-item">
-                <span className="emoji">🧸</span>
+                <div className="item-icon">🧸</div>
                 <span>Cuddle toys</span>
               </div>
               <div className="checklist-item">
-                <span className="emoji">🧳</span>
+                <div className="item-icon">👕</div>
                 <span>Pajamas on</span>
               </div>
               <div className="checklist-item">
-                <span className="emoji">📚</span>
+                <div className="item-icon">📚</div>
                 <span>Story time</span>
               </div>
             </div>
 
-            <button
-              className="big-button sleep-button"
-              onClick={handleBedtimeClick}
-            >
-              <span className="button-emoji">💤</span>
-              <span className="button-text">I'm Going to Sleep!</span>
-            </button>
+            <div className="action-button primary-action" onClick={handleBedtimeClick}>
+              <div className="action-icon">💤</div>
+              <div className="action-label">Going to Sleep</div>
+            </div>
           </div>
         )}
 
         {mode === 'sleeping' && (
-          <div className="sleeping-mode">
-            <div className="mascot sleeping">😴</div>
-            <h1 className="mode-title">Sweet Dreams!</h1>
-            <p className="mode-subtitle">Shhh... sleeping time 💤</p>
-
-            <div className="zzz-animation">
-              <div className="z">z</div>
-              <div className="z">z</div>
-              <div className="z">z</div>
+          <div className="mode-content sleeping-content">
+            <div className="mode-header">
+              <div className="mode-icon sleep-icon">😴</div>
+              <h1>Sweet Dreams</h1>
+              <p>Rest well, {child}...</p>
             </div>
 
-            <button
-              className="big-button wake-button"
-              onClick={handleWakeupClick}
-            >
-              <span className="button-emoji">🌅</span>
-              <span className="button-text">I Woke Up!</span>
-            </button>
+            <div className="sleep-indicator">
+              <div className="z-float">Z</div>
+              <div className="z-float">Z</div>
+              <div className="z-float">Z</div>
+            </div>
+
+            <div className="action-button secondary-action" onClick={handleWakeupClick}>
+              <div className="action-icon">🌅</div>
+              <div className="action-label">I Woke Up!</div>
+            </div>
           </div>
         )}
 
-        <div className="stars-container">
-          <div className="stars-title">Bedtime Stars!</div>
-          <div className="stars-display">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className={`star ${i < stars ? 'earned' : 'empty'}`}>
-                ⭐
-              </span>
+        <div className="stars-section">
+          <div className="stars-header">
+            <span className="stars-label">Sleep Streak</span>
+            <span className="star-count">{stars}/7</span>
+          </div>
+          <div className="stars-bar">
+            {[...Array(7)].map((_, i) => (
+              <div
+                key={i}
+                className={`star-slot ${i < stars ? 'filled' : 'empty'}`}
+              >
+                {i < stars && <span className="star-icon">⭐</span>}
+              </div>
             ))}
           </div>
-          <button className="add-star-btn" onClick={addStar}>
-            ✨ Add a Star! ✨
+          <button className="bonus-button" onClick={addStar}>
+            <span>+</span> Add Star
           </button>
         </div>
       </div>

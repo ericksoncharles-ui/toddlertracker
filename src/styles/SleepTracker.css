@@ -1,26 +1,29 @@
 .sleep-tracker {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .sleep-tracker section {
   background: white;
-  border-radius: 1.5rem;
-  padding: 2rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 1.75rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .sleep-tracker h2 {
-  color: #667eea;
+  color: #0f172a;
   margin-bottom: 1.5rem;
-  font-size: 1.8rem;
+  font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .sleep-tracker h3 {
-  color: #667eea;
+  color: #0f172a;
   margin-bottom: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 /* Form styling */
