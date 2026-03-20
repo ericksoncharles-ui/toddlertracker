@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { calculateSleepDuration, validateSleepEntry } from '../utils/sleepCalculations'
 import '../styles/SleepTracker.css'
 
 function SleepTracker({ child, entries, onAddEntry }) {
@@ -8,39 +9,70 @@ function SleepTracker({ child, entries, onAddEntry }) {
     waketime: '07:00',
     notes: ''
   })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [validationErrors, setValidationErrors] = useState([])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
+    setValidationErrors([])
+    setError(null)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    onAddEntry(formData)
-    setFormData({
-      date: new Date().toISOString().split('T')[0],
-      bedtime: '20:00',
-      waketime: '07:00',
-      notes: ''
-    })
+
+    const errors = validateSleepEntry(formData)
+    if (errors.length > 0) {
+      setValidationErrors(errors)
+      return
+    }
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      await onAddEntry(formData)
+      setFormData({
+        date: new Date().toISOString().split('T')[0],
+        bedtime: '20:00',
+        waketime: '07:00',
+        notes: ''
+      })
+      setValidationErrors([])
+    } catch (err) {
+      setError('Failed to add entry. Please try again.')
+      console.error('Error adding entry:', err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const calculateSleepDuration = (bedtime, waketime) => {
-    const [bedHour, bedMin] = bedtime.split(':').map(Number)
-    const [wakeHour, wakeMin] = waketime.split(':').map(Number)
-
-    let duration = (wakeHour * 60 + wakeMin) - (bedHour * 60 + bedMin)
-    if (duration < 0) duration += 24 * 60
-
-    const hours = Math.floor(duration / 60)
-    const mins = duration % 60
-    return `${hours}h ${mins}m`
+  const calculateAverageSleep = () => {
+    if (entries.length === 0) return null
+    const totalMins = entries.reduce((acc, entry) => {
+      const duration = calculateSleepDuration(entry.bedtime, entry.waketime)
+      return acc + (duration.hours * 60 + duration.mins)
+    }, 0)
+    const avgMins = Math.round(totalMins / entries.length)
+    return `${Math.floor(avgMins / 60)}h ${avgMins % 60}m`
   }
+
+  const childName = child.charAt(0).toUpperCase() + child.slice(1)
 
   return (
     <div className="sleep-tracker">
       <section className="entry-form">
-        <h2>Log Sleep for {child.charAt(0).toUpperCase() + child.slice(1)}</h2>
+        <h2>Log Sleep for {childName}</h2>
+        {error && <div className="error-message">{error}</div>}
+        {validationErrors.length > 0 && (
+          <div className="validation-errors">
+            {validationErrors.map((err, idx) => (
+              <p key={idx}>⚠️ {err}</p>
+            ))}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="date">Date</label>
@@ -51,6 +83,7 @@ function SleepTracker({ child, entries, onAddEntry }) {
               value={formData.date}
               onChange={handleChange}
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -64,6 +97,7 @@ function SleepTracker({ child, entries, onAddEntry }) {
                 value={formData.bedtime}
                 onChange={handleChange}
                 required
+                disabled={isLoading}
               />
             </div>
 
@@ -76,12 +110,13 @@ function SleepTracker({ child, entries, onAddEntry }) {
                 value={formData.waketime}
                 onChange={handleChange}
                 required
+                disabled={isLoading}
               />
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="notes">Notes (optional)</label>
+            <label htmlFor="notes">Notes (optional, max 100 chars)</label>
             <input
               type="text"
               id="notes"
@@ -89,10 +124,14 @@ function SleepTracker({ child, entries, onAddEntry }) {
               placeholder="e.g., Great night, slept in own bed!"
               value={formData.notes}
               onChange={handleChange}
+              maxLength={100}
+              disabled={isLoading}
             />
           </div>
 
-          <button type="submit" className="btn-primary">Add Entry ✓</button>
+          <button type="submit" className="btn-primary" disabled={isLoading}>
+            {isLoading ? 'Adding...' : 'Add Entry ✓'}
+          </button>
         </form>
       </section>
 
@@ -102,24 +141,27 @@ function SleepTracker({ child, entries, onAddEntry }) {
           <p className="no-data">No sleep entries yet. Start tracking!</p>
         ) : (
           <div className="entries-grid">
-            {entries.map((entry, idx) => (
-              <div key={idx} className="entry-card">
-                <div className="entry-date">{entry.date}</div>
-                <div className="entry-times">
-                  <div className="time">🌙 {entry.bedtime}</div>
-                  <div className="duration">→ {calculateSleepDuration(entry.bedtime, entry.waketime)}</div>
-                  <div className="time">☀️ {entry.waketime}</div>
+            {entries.map((entry, idx) => {
+              const duration = calculateSleepDuration(entry.bedtime, entry.waketime)
+              return (
+                <div key={`${entry.date}-${entry.bedtime}`} className="entry-card">
+                  <div className="entry-date">{entry.date}</div>
+                  <div className="entry-times">
+                    <div className="time">🌙 {entry.bedtime}</div>
+                    <div className="duration">→ {duration.toString()}</div>
+                    <div className="time">☀️ {entry.waketime}</div>
+                  </div>
+                  {entry.notes && <div className="entry-notes">"{entry.notes}"</div>}
                 </div>
-                {entry.notes && <div className="entry-notes">"{entry.notes}"</div>}
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </section>
 
       <section className="stats">
         <h3>Quick Stats</h3>
-        {entries.length > 0 && (
+        {entries.length > 0 ? (
           <div className="stats-grid">
             <div className="stat">
               <div className="stat-label">Total Sessions</div>
@@ -127,21 +169,11 @@ function SleepTracker({ child, entries, onAddEntry }) {
             </div>
             <div className="stat">
               <div className="stat-label">Average Duration</div>
-              <div className="stat-value">
-                {(() => {
-                  const totalMins = entries.reduce((acc, entry) => {
-                    const [bedHour, bedMin] = entry.bedtime.split(':').map(Number)
-                    const [wakeHour, wakeMin] = entry.waketime.split(':').map(Number)
-                    let duration = (wakeHour * 60 + wakeMin) - (bedHour * 60 + bedMin)
-                    if (duration < 0) duration += 24 * 60
-                    return acc + duration
-                  }, 0)
-                  const avgMins = Math.round(totalMins / entries.length)
-                  return `${Math.floor(avgMins / 60)}h ${avgMins % 60}m`
-                })()}
-              </div>
+              <div className="stat-value">{calculateAverageSleep()}</div>
             </div>
           </div>
+        ) : (
+          <p className="no-data">Add some sleep entries to see stats!</p>
         )}
       </section>
     </div>

@@ -48,6 +48,50 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.child-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading-indicator {
+  margin-top: 0.5rem;
+  color: white;
+  font-size: 0.9rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.error-banner {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.retry-btn {
+  background-color: white;
+  color: #ff6b6b;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.retry-btn:hover {
+  background-color: #ffe0e0;
+}
+
 .main-content {
   flex: 1;
   padding: 2rem;
