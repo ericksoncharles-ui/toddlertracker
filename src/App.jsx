@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import SleepTracker from './components/SleepTracker'
+import HatchStatus from './components/HatchStatus'
 import './App.css'
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
             </button>
           </div>
         )}
+        <HatchStatus />
         <SleepTracker
           child={activeChild}
           entries={entries}

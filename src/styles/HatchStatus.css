@@ -1,0 +1,198 @@
+.hatch-status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hatch-status,
+.hatch-status-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hatch-status.loading {
+  text-align: center;
+  color: #667eea;
+  font-weight: 500;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.hatch-status.error {
+  background-color: #fff3cd;
+  border-left: 4px solid #ff6b6b;
+  color: #856404;
+  font-weight: 500;
+}
+
+.hatch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.hatch-header h3 {
+  color: #667eea;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.device-connected {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hatch-color-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(102, 126, 234, 0.05);
+}
+
+.color-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+.color-info {
+  flex: 1;
+}
+
+.color-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.color-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.hatch-schedule {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.schedule-item {
+  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+  border: 1px solid #667eea30;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.schedule-label {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.95rem;
+}
+
+.schedule-time {
+  color: #333;
+  font-size: 0.85rem;
+}
+
+.schedule-color {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.amber-pill {
+  background-color: #FFE5CC;
+  color: #B8860B;
+}
+
+.green-pill {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+.last-update {
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.hatch-tips {
+  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+  border-left: 4px solid #667eea;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.hatch-tips p {
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.hatch-tips ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.hatch-tips li {
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .hatch-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .hatch-schedule {
+    grid-template-columns: 1fr;
+  }
+
+  .hatch-color-display {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .color-circle {
+    width: 80px;
+    height: 80px;
+  }
+}
