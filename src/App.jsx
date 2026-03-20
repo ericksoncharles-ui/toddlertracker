@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import SleepTracker from './components/SleepTracker'
 import HatchStatus from './components/HatchStatus'
+import KidsView from './components/KidsView'
+import ViewToggle from './components/ViewToggle'
 import './App.css'
 
 function App() {
@@ -8,6 +10,7 @@ function App() {
   const [entries, setEntries] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [globalError, setGlobalError] = useState(null)
+  const [currentView, setCurrentView] = useState('parent') // 'parent' or 'kids'
 
   const fetchEntries = useCallback(async (child) => {
     setIsLoading(true)
@@ -53,6 +56,32 @@ function App() {
     }
   }
 
+  // Kids view - fun interactive mode
+  if (currentView === 'kids') {
+    return (
+      <KidsView
+        child={activeChild === 'theodore' ? 'Theodore' : 'Beau'}
+        onBedtime={() => {
+          const date = new Date().toISOString().split('T')[0]
+          const bedtime = new Date().toTimeString().slice(0, 5)
+          handleAddEntry({
+            date,
+            bedtime,
+            waketime: '07:30',
+            notes: `${activeChild} went to bed! 🌙`
+          })
+        }}
+        onWakeup={() => {
+          // Mark the previous entry as complete
+          if (entries.length > 0) {
+            const now = new Date().toTimeString().slice(0, 5)
+            console.log(`${activeChild} woke up at ${now}! ☀️`)
+          }
+        }}
+      />
+    )
+  }
+
   return (
     <div className="app">
       <header className="header">
@@ -77,6 +106,8 @@ function App() {
       </header>
 
       <main className="main-content">
+        <ViewToggle currentView={currentView} onViewChange={setCurrentView} />
+
         {globalError && (
           <div className="error-banner">
             <span>❌ {globalError}</span>

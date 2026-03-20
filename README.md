@@ -9,6 +9,13 @@ A fun sleep tracking app for Theodore and Beau! Track their bedtimes, wake times
 - ⏱️ Calculate sleep duration automatically
 - 📈 Quick stats on sleep sessions
 - 🎨 Fun, colorful interface designed for parents
+- 👶 **Kids View** - Interactive mode for toddlers:
+  - Giant touch-friendly buttons for bedtime/wake-up tracking
+  - Fun mascots and celebrations with confetti
+  - Bedtime routine checklist (bath, pajamas, story time)
+  - Star reward system for good sleep habits
+  - Automatic day/night mode detection
+  - Celebration animations when logging sleep
 - 🧤 **Hatch Alarm Clock Integration** - Sync with Hatch to show:
   - 🌙 Amber light during sleep hours (8pm - 7:30am)
   - ☀️ Green light during wake hours (7:30am - 8pm)
@@ -85,11 +92,30 @@ npm run build
 
 ## How to Use
 
+### Parent View
 1. **Select a child**: Click "Theodore" or "Beau" at the top
-2. **Log sleep**: Fill in the date, bedtime, and wake time
-3. **Add notes**: Optionally add notes about their sleep
-4. **View history**: See all sleep entries with calculated durations
-5. **Check stats**: View quick statistics on total sessions and average sleep duration
+2. **Switch to Kids View**: Click "👶 Kids View" to let kids interact
+3. **Log sleep**: Fill in the date, bedtime, and wake time
+4. **Add notes**: Optionally add notes about their sleep
+5. **View history**: See all sleep entries with calculated durations
+6. **Check stats**: View quick statistics on total sessions and average sleep duration
+
+### Kids View (Perfect for Theodore & Beau!)
+1. **Show to your kids**: Click "👶 Kids View" button in Parent view
+2. **Day Mode** (7:30am - 8pm):
+   - Shows sunny ☀️ mascot and happy morning theme
+   - Giant "Ready for Bed!" button
+3. **Bedtime Mode** (8pm - 7:30am):
+   - Shows sleepy 🌙 mascot and calm theme
+   - Fun bedtime checklist (bath, pajamas, story, toys)
+   - Giant "Going to Sleep!" button
+4. **Sleeping Mode** (after pressing sleep button):
+   - Shows sleeping 😴 mascot with "z" animations
+   - "I Woke Up!" button to log wake-up
+5. **Star Rewards**:
+   - Earn ⭐ for each night slept
+   - "Add a Star!" button for quick rewards
+   - Celebration animations with confetti!
 
 ## Project Structure
 
