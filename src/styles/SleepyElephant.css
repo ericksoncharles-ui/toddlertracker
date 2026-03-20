@@ -1,0 +1,227 @@
+.sleepy-elephant-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sleepy-elephant-container.large {
+  width: 240px;
+  height: 280px;
+}
+
+.sleepy-elephant-container.medium {
+  width: 160px;
+  height: 190px;
+}
+
+.sleepy-elephant-container.small {
+  width: 100px;
+  height: 120px;
+}
+
+.sleepy-elephant {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 30px rgba(212, 181, 240, 0.3));
+}
+
+/* Base animations */
+.sleepy-elephant-container.animated .head {
+  animation: gentleNod 3s ease-in-out infinite;
+}
+
+.sleepy-elephant-container.animated .left-ear {
+  animation: earWiggleLeft 2.5s ease-in-out infinite;
+  transform-origin: 70px 25px;
+}
+
+.sleepy-elephant-container.animated .right-ear {
+  animation: earWiggleRight 2.5s ease-in-out infinite;
+  transform-origin: 130px 25px;
+}
+
+.sleepy-elephant-container.animated .trunk {
+  animation: trunkSway 3.5s ease-in-out infinite;
+  transform-origin: 100px 135px;
+}
+
+.sleepy-elephant-container.animated .body {
+  animation: bodyBreathe 4s ease-in-out infinite;
+}
+
+.sleepy-elephant-container.animated .left-blush {
+  animation: blushPulse 2s ease-in-out infinite;
+}
+
+.sleepy-elephant-container.animated .right-blush {
+  animation: blushPulse 2s ease-in-out infinite 0.3s;
+}
+
+.sleepy-elephant-container.animated .tail {
+  animation: tailSwish 2.5s ease-in-out infinite;
+  transform-origin: 135px 160px;
+}
+
+.sleepy-elephant-container.animated .zzz-marks text:nth-child(1) {
+  animation: zzzFloat 2.5s ease-in-out infinite;
+}
+
+.sleepy-elephant-container.animated .zzz-marks text:nth-child(2) {
+  animation: zzzFloat 2.5s ease-in-out infinite 0.5s;
+}
+
+.sleepy-elephant-container.animated .zzz-marks text:nth-child(3) {
+  animation: zzzFloat 2.5s ease-in-out infinite 1s;
+}
+
+/* Keyframe Animations */
+
+@keyframes gentleNod {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes earWiggleLeft {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes earWiggleRight {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  75% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes trunkSway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes bodyBreathe {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.03);
+  }
+}
+
+@keyframes blushPulse {
+  0%, 100% {
+    opacity: 0.5;
+    r: 6px;
+  }
+  50% {
+    opacity: 0.8;
+    r: 7px;
+  }
+}
+
+@keyframes tailSwish {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes zzzFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) translateX(15px);
+  }
+}
+
+/* Eye animations for sleeping */
+.sleepy-elephant-container.animated .eyelash {
+  animation: eyeBlink 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes eyeBlink {
+  0%, 100% {
+    stroke-width: 3;
+    opacity: 0.8;
+  }
+  50% {
+    stroke-width: 2;
+    opacity: 0.6;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .sleepy-elephant-container.large {
+    width: 180px;
+    height: 210px;
+  }
+
+  .sleepy-elephant-container.medium {
+    width: 120px;
+    height: 140px;
+  }
+}
+
+/* State variants */
+.sleepy-elephant-container.awake .head {
+  animation: none;
+}
+
+.sleepy-elephant-container.awake .eyelash {
+  animation: none;
+  stroke-width: 0;
+}
+
+.sleepy-elephant-container.awake .left-eye,
+.sleepy-elephant-container.awake .right-eye {
+  display: none;
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+  .sleepy-elephant {
+    filter: drop-shadow(0 8px 20px rgba(212, 181, 240, 0.25));
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .sleepy-elephant {
+    filter: drop-shadow(0 10px 30px rgba(212, 181, 240, 0.4));
+  }
+}

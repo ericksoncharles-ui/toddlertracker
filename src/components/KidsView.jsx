@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import SleepyElephant from './SleepyElephant'
 import '../styles/KidsView.css'
 
 function KidsView({ child, onBedtime, onWakeup }) {
@@ -61,13 +62,12 @@ function KidsView({ child, onBedtime, onWakeup }) {
         {mode === 'day' && (
           <div className="mode-content day-content">
             <div className="mode-header">
-              <div className="mode-icon">🌞</div>
+              <SleepyElephant size="large" animated={true} />
               <h1>Good Morning!</h1>
               <p>Ready to play, {child}?</p>
             </div>
 
             <div className="action-button primary-action" onClick={handleBedtimeClick}>
-              <div className="action-icon">🌙</div>
               <div className="action-label">Ready for Bed</div>
             </div>
           </div>
@@ -76,7 +76,7 @@ function KidsView({ child, onBedtime, onWakeup }) {
         {mode === 'bedtime' && (
           <div className="mode-content bedtime-content">
             <div className="mode-header">
-              <div className="mode-icon">🌙</div>
+              <SleepyElephant size="large" animated={true} />
               <h1>Bedtime!</h1>
               <p>Time to get ready for sleep</p>
             </div>
@@ -101,7 +101,6 @@ function KidsView({ child, onBedtime, onWakeup }) {
             </div>
 
             <div className="action-button primary-action" onClick={handleBedtimeClick}>
-              <div className="action-icon">💤</div>
               <div className="action-label">Going to Sleep</div>
             </div>
           </div>
@@ -110,19 +109,12 @@ function KidsView({ child, onBedtime, onWakeup }) {
         {mode === 'sleeping' && (
           <div className="mode-content sleeping-content">
             <div className="mode-header">
-              <div className="mode-icon sleep-icon">😴</div>
+              <SleepyElephant size="large" animated={true} />
               <h1>Sweet Dreams</h1>
               <p>Rest well, {child}...</p>
             </div>
 
-            <div className="sleep-indicator">
-              <div className="z-float">Z</div>
-              <div className="z-float">Z</div>
-              <div className="z-float">Z</div>
-            </div>
-
             <div className="action-button secondary-action" onClick={handleWakeupClick}>
-              <div className="action-icon">🌅</div>
               <div className="action-label">I Woke Up!</div>
             </div>
           </div>
